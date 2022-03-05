@@ -2,7 +2,7 @@
  * Возвращает случайное целое число из диапазона. При отрицательном значении берется его модуль
  * @param {number} a - левая(правая) граница диапазона
  * @param {number} b - правая(левая) граница диапазона
- * @returns {number} - случайное целое число из диапазона
+ * @returns {number} случайное целое число из диапазона
  */
 function getRandomInt(a, b) {
   const left = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
@@ -16,7 +16,7 @@ getRandomInt(0, 10);
  * Проверяет максимальную длину строки.
  * @param {string} comment - строка для проверки
  * @param {number} length - длина, с которой надо сравнить длину строки comment
- * @returns {boolean} - true, если длина строки не больше
+ * @returns {boolean} true, если длина строки не больше
  */
 function checkStringLength(comment, length = 100) {
   return comment.length <= length;
@@ -44,6 +44,10 @@ const COMMENT_AUTHORS = [
   'Таня'
 ];
 
+/**
+ * Генерирует случайное сообщение в коммаентарии, состоящий из одного или двух предложений из массива COMMENT_MESSAGES
+ * @returns {string}
+ */
 function genCommentMessage() {
   let commentMessage = '';
   for (let i = 0; i < getRandomInt(1, 2); i++) {
@@ -54,10 +58,18 @@ function genCommentMessage() {
   return commentMessage;
 }
 
+/**
+ * Генерирует случайное имя из массива COMMENT_AUTHORS
+ * @returns {string} случайное имя из массива COMMENT_AUTHORS
+ */
 function genAuthorName() {
   return COMMENT_AUTHORS[getRandomInt(0, COMMENT_AUTHORS.length - 1)];
 }
 
+/**
+ * Генерирует массив из ID комментариев
+ * @returns {number[]}
+ */
 function genCommentIdArray() {
   const maxId = 100;
   const commentIdArray = [getRandomInt(0, maxId)];
@@ -74,6 +86,11 @@ function genCommentIdArray() {
   return commentIdArray;
 }
 
+/**
+ * Генериует комментарий к фотографии c ключами id, avatar, message, name
+ * @param {number} id - id комментария
+ * @returns {object}
+ */
 function genComment(id) {
   return {
     id: id,
@@ -83,8 +100,17 @@ function genComment(id) {
   };
 }
 
-
-function genObject(id = 0) {
+/**
+ * Генерирует объект с ключами
+ * id - шв фотографиии
+ * url - ссылка на фотографию
+ * description - Описание фотографии
+ * likes - кол-во лайков
+ * comments - массив из комменатриев к фотографии
+ * @param {number} id - id фотографии
+ * @returns {object}
+ */
+function genObject(id) {
   return {
     id: id,
     url: `photos/${  id  }.jpg`,
