@@ -1,6 +1,9 @@
 import {getRandomInt, getRandomArrayElement} from './util.js';
 
-const COMMENTS_NUM = 5;
+const COMMENTS_COUNT = 5;
+const MAX_ID = 100; // максимальное число ID
+const MIN_LIKES_COUNT = 15;
+const MAX_LIKES_COUNT = 200;
 
 const COMMENT_MESSAGES = [
   'Всё отлично!',
@@ -24,7 +27,7 @@ const COMMENT_AUTHORS = [
  * Генерирует случайное сообщение в коммаентарии, состоящий из одного или двух предложений из массива COMMENT_MESSAGES
  * @returns {string}
  */
-function genCommentMessage() {
+function generateCommentMessage() {
   let commentMessage = '';
   for (let i = 0; i < getRandomInt(1, 2); i++) {
     commentMessage += getRandomArrayElement(COMMENT_MESSAGES);
@@ -38,19 +41,17 @@ function genCommentMessage() {
  * Генерирует случайное имя из массива COMMENT_AUTHORS
  * @returns {string} случайное имя из массива COMMENT_AUTHORS
  */
-function genAuthorName() {
+function generateAuthorName() {
   return getRandomArrayElement(COMMENT_AUTHORS);
 }
-
-const MAX_ID = 100; // максимальное число ID
 
 /**
  * Генерирует массив из ID комментариев
  * @returns {number[]}
  */
-function genCommentIdArray() {
+function generateCommentIdArray() {
   const commentIdArray = [getRandomInt(0, MAX_ID)];
-  for (let i = 1; i < COMMENTS_NUM; i++) {
+  for (let i = 1; i < COMMENTS_COUNT; i++) {
     const temp = getRandomInt(0, MAX_ID);
     for (let j = i; j > 0; j--) {
       if (temp === commentIdArray[j]) {
@@ -68,41 +69,40 @@ function genCommentIdArray() {
  * @param {number} id - id комментария
  * @returns {object}
  */
-function genComment(id) {
+function generateComment(id) {
   return {
     id: id,
-    avatar: `img/avatar-${  getRandomInt(1, 6)  }.svg`,
-    message: genCommentMessage(),
-    name: genAuthorName()
+    avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+    message: generateCommentMessage(),
+    name: generateAuthorName()
   };
 }
 
 /**
  * Генерирует объект с ключами
- * id - шв фотографиии
- * url - ссылка на фотографию
- * description - Описание фотографии
- * likes - кол-во лайков
+ * id - id фотографии;
+ * url - ссылка на фотографию;
+ * description - Описание фотографии;
+ * likes - кол-во лайков;
  * comments - массив из комменатриев к фотографии
  * @param {number} id - id фотографии
  * @returns {object}
  */
-function genObject(id) {
+function generateObject(id) {
   return {
     id: id,
     url: `photos/${  id  }.jpg`,
     description: `Очень оригинальное описание фотографии ${  id  }`,
-    likes: getRandomInt(15, 200),
-    comments: Array.from({length: COMMENTS_NUM}, (currentValue, index) => genComment(genCommentIdArray()[index]))
+    likes: getRandomInt(MIN_LIKES_COUNT, MAX_LIKES_COUNT),
+    comments: Array.from({length: COMMENTS_COUNT}, (currentValue, index) => generateComment(generateCommentIdArray()[index]))
   };
 }
 
-const DATA_SIZE = 25; // кол-во создаваемых объектов данных
-
 /**
- * Генериурет массив объектов
+ * Генериурет массив фотографий
+ * * @param {number} count - кол-во элементов массива
  * @returns {object[]}
  */
-export function genData() {
-  return Array.from({length: DATA_SIZE}, (currentValue, index) => genObject(index + 1));
+export function generatePhotos(count) {
+  return Array.from({length: count}, (currentValue, index) => generateObject(index + 1));
 }
