@@ -11,14 +11,11 @@ const fragment = document.createDocumentFragment();
  * likes - кол-во лайков;
  * comments - массив из комменатриев к фотографии
  */
-function addPhotoToFragment(photo) {
+function addPhotoToFragment({url, likes, comments}) {
   const newPicture = pictureTemplate.cloneNode(true);
-  const pictureImage = newPicture.querySelector('.picture__img');
-  pictureImage.src = photo.url;
-  const pictureLikes = newPicture.querySelector('.picture__likes');
-  pictureLikes.textContent = photo.likes;
-  const pictureComments= newPicture.querySelector('.picture__comments');
-  pictureComments.textContent = photo.comments.length;
+  newPicture.querySelector('.picture__img').src = url;
+  newPicture.querySelector('.picture__likes').textContent = likes;
+  newPicture.querySelector('.picture__comments').textContent = comments.length;
   fragment.appendChild(newPicture);
 }
 
@@ -27,9 +24,7 @@ function addPhotoToFragment(photo) {
  * @param {object[]} photos - массив фотографий
  */
 function renderPhotos(photos) {
-  photos.forEach((photo) => {
-    addPhotoToFragment(photo);
-  });
+  photos.forEach(addPhotoToFragment);
   pictureContainer.appendChild(fragment);
 }
 
