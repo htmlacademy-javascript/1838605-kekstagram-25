@@ -29,4 +29,13 @@ function checkStringLength(comment, length = 100) {
   return comment.length <= length;
 }
 
-export {getRandomInt, getRandomArrayElement, checkStringLength};
+/**
+ * Проверяет, что нажатая клавиша соответствует клавише Escape
+ * @param {object} evt
+ * @returns {boolean} true, если Escape
+ */
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
+
+export {getRandomInt, getRandomArrayElement, checkStringLength, isEscapeKey};

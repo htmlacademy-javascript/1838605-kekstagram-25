@@ -1,5 +1,18 @@
+import {isEscapeKey} from './util.js';
 const bigPicture = document.querySelector('.big-picture');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+const bigPictureCancel = document.querySelector('.big-picture__cancel');
+
+function onBigPictureEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hideBigPicture();
+  }
+}
+
+function onBigPictureCancelClick() {
+  hideBigPicture();
+}
 
 /**
  * Создает копию шаблона комментария и заполняет ее
@@ -45,14 +58,19 @@ function showBigPicture({url, description, likes, comments}) {
   renderComments(comments);
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
+
+  bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
+  document.addEventListener('keydown', onBigPictureEscKeydown);
 }
 
 /**
  * Скрывает окно с большой фотографией
  */
 function hideBigPicture() {
+  document.removeEventListener('keydown', onBigPictureEscKeydown);
+  bigPictureCancel.removeEventListener('click', onBigPictureCancelClick);
   bigPicture.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 }
 
-export {showBigPicture, hideBigPicture};
+export {showBigPicture};
