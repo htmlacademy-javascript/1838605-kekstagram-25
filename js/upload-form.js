@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
 const uploadForm = document.querySelector('.img-upload__form');
+const uploadFIle = uploadForm.querySelector('#upload-file');
 const cancelButton = uploadForm.querySelector('.img-upload__cancel');
 
 function onCancelButtonClick() {
@@ -33,8 +34,9 @@ function hideUploadForm() {
 
   cancelButton.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onUploadModalEscKeydown);
+  uploadFIle.value ='';
 }
 
-uploadForm.querySelector('#upload-file').addEventListener('change', () => {
+uploadFIle.addEventListener('change', () => {
   showUploadForm();
 });
