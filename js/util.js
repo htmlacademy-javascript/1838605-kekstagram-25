@@ -38,4 +38,21 @@ function isEscapeKey(evt) {
   return evt.key === 'Escape';
 }
 
-export {getRandomInt, getRandomArrayElement, checkStringLength, isEscapeKey};
+/**
+ * Проверяет наличие одинаковых элементов в массиве
+ * @param {any} array
+ * @returns {any}
+ */
+function isExistSameElement(array) {
+  const temp = {};
+  for (let i = 0; i < array.length; i++) {
+    if (temp[array[i]]) {
+      return true;
+    } else {
+      temp[array[i]] = 1;
+    }
+  }
+  return false;
+}
+
+export {getRandomInt, getRandomArrayElement, checkStringLength, isEscapeKey, isExistSameElement};
