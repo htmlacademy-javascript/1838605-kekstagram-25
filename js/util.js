@@ -29,4 +29,30 @@ function checkStringLength(comment, length = 100) {
   return comment.length <= length;
 }
 
-export {getRandomInt, getRandomArrayElement, checkStringLength};
+/**
+ * Проверяет, что нажатая клавиша соответствует клавише Escape
+ * @param {object} evt
+ * @returns {boolean} true, если Escape
+ */
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
+
+/**
+ * Проверяет наличие одинаковых элементов в массиве
+ * @param {any} array
+ * @returns {boolean}
+ */
+function isExistSameElement(array) {
+  const temp = {};
+  for (let i = 0; i < array.length; i++) {
+    if (temp[array[i]]) {
+      return true;
+    } else {
+      temp[array[i]] = 1;
+    }
+  }
+  return false;
+}
+
+export {getRandomInt, getRandomArrayElement, checkStringLength, isEscapeKey, isExistSameElement};
