@@ -41,7 +41,7 @@ function isEscapeKey(evt) {
 /**
  * Проверяет наличие одинаковых элементов в массиве
  * @param {any} array
- * @returns {any}
+ * @returns {boolean}
  */
 function isExistSameElement(array) {
   const temp = {};
