@@ -1,6 +1,6 @@
 import {getRandomInt, getRandomArrayElement} from './util.js';
 
-const COMMENTS_COUNT = 5;
+const COMMENTS_COUNT = 12;
 const MAX_ID = 100; // максимальное число ID
 const MIN_LIKES_COUNT = 15;
 const MAX_LIKES_COUNT = 200;

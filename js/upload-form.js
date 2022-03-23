@@ -5,6 +5,8 @@ const cancelButton = uploadForm.querySelector('.img-upload__cancel');
 const hashtags = uploadForm.querySelector('.text__hashtags');
 const description = uploadForm.querySelector('.text__description');
 const MAX_DESCRIPTION_LENGTH = 140;
+const MAX_HASHTAGS_COUNT = 5;
+const MAX_HASHTAG_LENGTH = 20;
 
 /**
  * Обработчик нажатия закрытия формы загрузки изображения
@@ -94,7 +96,7 @@ function validateHashtags(value) {
           hashtagErrorCode = HASHTAG_ERRORS.onlyHashtag;
           return false;
         }
-        if (hashtagsArray[i].length > 20) {
+        if (hashtagsArray[i].length > MAX_HASHTAG_LENGTH) {
           hashtagErrorCode = HASHTAG_ERRORS.tooLongHashtag;
           return false;
         }
@@ -103,7 +105,7 @@ function validateHashtags(value) {
       }
     }
 
-    if (hashtagsArray.length > 5) {
+    if (hashtagsArray.length > MAX_HASHTAGS_COUNT) {
       hashtagErrorCode = HASHTAG_ERRORS.tooManyHashtags;
       return false;
     }
@@ -126,13 +128,6 @@ function getHashTagErrorMessage() {
   return hashtagErrorCode;
 }
 
-pristine.addValidator(
-  hashtags,
-  validateHashtags,
-  getHashTagErrorMessage
-);
-
-
 /**
  * Проверяет правильность описания
  * @param {string} value - строка с описанием
@@ -142,11 +137,19 @@ function validateDescription(value) {
   return value.length <= MAX_DESCRIPTION_LENGTH;
 }
 
-pristine.addValidator(
-  description,
-  validateDescription,
-  'Длина комментария не может составлять больше 140 символов'
-);
+export function enableValidation() {
+  pristine.addValidator(
+    hashtags,
+    validateHashtags,
+    getHashTagErrorMessage
+  );
+
+  pristine.addValidator(
+    description,
+    validateDescription,
+    'Длина комментария не может составлять больше 140 символов'
+  );
+}
 
 
 uploadForm.addEventListener('submit', (evt) => {
