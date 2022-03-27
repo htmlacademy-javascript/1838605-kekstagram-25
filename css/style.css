@@ -1416,3 +1416,10 @@ main {
 .hidden {
   display: none;
 }
+
+/* Для ошибок валидации хэштега и описания */
+.img-upload__error {
+  display: block;
+  text-transform: none;
+  color: #ff4e4e;
+}

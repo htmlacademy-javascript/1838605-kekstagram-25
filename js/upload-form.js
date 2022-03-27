@@ -1,4 +1,6 @@
 import {isEscapeKey, isExistSameElement} from './util.js';
+import {makePreviewScalable, makePreviewUnScalable} from './scale.js';
+import {enableFilters, disableFilters} from './filters.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFIle = uploadForm.querySelector('#upload-file');
 const cancelButton = uploadForm.querySelector('.img-upload__cancel');
@@ -36,6 +38,8 @@ function showUploadForm() {
 
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onUploadModalEscKeydown);
+  makePreviewScalable();
+  enableFilters();
 }
 
 /**
@@ -48,6 +52,8 @@ function hideUploadForm() {
   cancelButton.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onUploadModalEscKeydown);
   uploadFIle.value ='';
+  makePreviewUnScalable();
+  disableFilters();
 }
 
 uploadFIle.addEventListener('change', () => {
