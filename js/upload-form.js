@@ -53,6 +53,8 @@ function hideUploadForm() {
   cancelButton.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onUploadModalEscKeydown);
   uploadFIle.value ='';
+  hashtags.value = '';
+  description.value = '';
   makePreviewUnScalable();
   disableFilters();
 }
