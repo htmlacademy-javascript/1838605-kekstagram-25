@@ -1,6 +1,7 @@
 import {isEscapeKey, isExistSameElement} from './util.js';
 import {makePreviewScalable, makePreviewUnScalable} from './scale.js';
 import {enableFilters, disableFilters} from './filters.js';
+import {sendDataToServer} from './server-api.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFIle = uploadForm.querySelector('#upload-file');
 const cancelButton = uploadForm.querySelector('.img-upload__cancel');
@@ -158,9 +159,32 @@ export function enableValidation() {
 }
 
 
+const successForm = document.querySelector('#success').content.querySelector('.success');
+
+function onSuccessButtonClick() {
+  successForm.querySelector('.success__button').removeEventListener('click', onSuccessButtonClick);
+  document.body.removeChild(successForm);
+}
+function showSuccessForm() {
+  document.body.appendChild(successForm);
+  successForm.querySelector('.success__button').addEventListener('click', onSuccessButtonClick);
+}
+
+
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
+  sendDataToServer(
+    () => {
+      console.log("Успех!");
+      hideUploadForm();
+      showSuccessForm();
+      showSuccessForm();
+      showSuccessForm();
+    },
+    console.log,
+    new FormData(evt.target),
+  );
+  // if (pristine.validate()) {
+  //   uploadForm.submit();
+  // }
 });
