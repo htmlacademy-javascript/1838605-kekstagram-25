@@ -1,3 +1,4 @@
+import {showBigPicture} from './big-picture.js';
 const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const fragment = document.createDocumentFragment();
@@ -11,11 +12,14 @@ const fragment = document.createDocumentFragment();
  * likes - кол-во лайков;
  * comments - массив из комменатриев к фотографии
  */
-function addPhotoToFragment({url, likes, comments}) {
+function addPhotoToFragment({url, likes, comments, description}) {
   const newPicture = pictureTemplate.cloneNode(true);
   newPicture.querySelector('.picture__img').src = url;
   newPicture.querySelector('.picture__likes').textContent = likes;
   newPicture.querySelector('.picture__comments').textContent = comments.length;
+  newPicture.querySelector('.picture__img').addEventListener('click', () => {
+    showBigPicture({url, likes, comments, description});
+  });
   fragment.appendChild(newPicture);
 }
 
