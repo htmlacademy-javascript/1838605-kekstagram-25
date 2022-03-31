@@ -22,11 +22,11 @@ const sendDataToServer = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail('Не удалось отправить форму');
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail('Не удалось отправить форму');
     });
 };
 
