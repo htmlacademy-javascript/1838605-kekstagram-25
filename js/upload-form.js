@@ -1,9 +1,11 @@
 import {isEscapeKey, isExistSameElement} from './util.js';
 import {makePreviewScalable, makePreviewUnScalable} from './scale.js';
 import {enableFilters, disableFilters} from './filters.js';
+import {sendDataToServer} from './server-api.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFIle = uploadForm.querySelector('#upload-file');
 const cancelButton = uploadForm.querySelector('.img-upload__cancel');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 const hashtags = uploadForm.querySelector('.text__hashtags');
 const description = uploadForm.querySelector('.text__description');
 const MAX_DESCRIPTION_LENGTH = 140;
@@ -52,6 +54,8 @@ function hideUploadForm() {
   cancelButton.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onUploadModalEscKeydown);
   uploadFIle.value ='';
+  hashtags.value = '';
+  description.value = '';
   makePreviewUnScalable();
   disableFilters();
 }
@@ -157,10 +161,130 @@ export function enableValidation() {
   );
 }
 
+const successForm = document.querySelector('#success').content.querySelector('.success');
+const errorForm = document.querySelector('#error').content.querySelector('.error');
+errorForm.querySelector('.error__button').textContent = 'OK';
+
+
+/**
+ * Обработчик кнопки на форме успешной отправки фомры
+ */
+function onSuccessButtonClick() {
+  hideSuccessForm();
+}
+
+/**
+ * Обработчик кнопки на форме неудачной отправки фомры
+ */
+function onErrorButtonClick() {
+  hideErrorForm();
+}
+
+/**
+ * Обработчик клика вне сообщения общ успешной/неудачной отправки формы
+ */
+function onOutOfFormClick(evt) {
+  if (evt.target === successForm && evt.target !== successForm.querySelector('.success__inner')) {
+    hideSuccessForm();
+  }
+  if (evt.target === errorForm && evt.target !== errorForm.querySelector('.error__inner')) {
+    hideErrorForm();
+  }
+}
+
+/**
+ * Обработчик клавиши Escape при открытом окне успешной отправки формы
+ */
+function onSuccessFormEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hideSuccessForm();
+  }
+}
+
+/**
+ * Обработчик клавиши Escape при открытом окне неудачной отправки формы
+ */
+function onErrorFormEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    hideErrorForm();
+  }
+}
+
+/**
+ * Показывает сообщение об успешной отправке формы
+ */
+function showSuccessForm() {
+  document.body.appendChild(successForm);
+  successForm.querySelector('.success__button').addEventListener('click', onSuccessButtonClick);
+  document.addEventListener('click', onOutOfFormClick);
+  document.addEventListener('keydown', onSuccessFormEscKeydown);
+}
+
+/**
+ * Скрывает сообщение об успешной отправке формы
+ */
+function hideSuccessForm() {
+  successForm.querySelector('.success__button').removeEventListener('click', onSuccessButtonClick);
+  document.removeEventListener('click', onOutOfFormClick);
+  document.removeEventListener('keydown', onSuccessFormEscKeydown);
+  document.body.removeChild(successForm);
+}
+
+/**
+ * Показывает сообщение о неудачной отправке формы
+ */
+function showErrorForm(message) {
+  document.body.appendChild(errorForm);
+  errorForm.querySelector('.error__title').textContent = message;
+  errorForm.querySelector('.error__button').addEventListener('click', onErrorButtonClick);
+  document.addEventListener('click', onOutOfFormClick);
+  document.addEventListener('keydown', onErrorFormEscKeydown);
+}
+
+/**
+ * Скрывает сообщение о неудачной отправке формы
+ */
+function hideErrorForm() {
+  errorForm.querySelector('.error__button').removeEventListener('click', onErrorButtonClick);
+  document.removeEventListener('click', onOutOfFormClick);
+  document.removeEventListener('keydown', onErrorFormEscKeydown);
+  document.body.removeChild(errorForm);
+}
+
+/**
+ * Блокирует кнопку отправки формы
+ */
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+/**
+ * Разблокирует кнопку отправки формы
+ */
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
 
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    uploadForm.submit();
+    blockSubmitButton();
+    sendDataToServer(
+      () => {
+        unblockSubmitButton();
+        hideUploadForm();
+        showSuccessForm();
+      },
+      (message) => {
+        unblockSubmitButton();
+        hideUploadForm();
+        showErrorForm(message);
+      },
+      new FormData(evt.target),
+    );
   }
 });

@@ -1,11 +1,7 @@
-import {generatePhotos} from './data.js';
+//import {generatePhotos} from './data.js';
 import {renderPhotos} from './mini-picture.js';
-import {makeGalleryInteractive} from './gallery.js';
 import {enableValidation} from './upload-form.js';
+import {getDataFromServer} from './server-api.js';
 
-const PHOTOS_COUNT = 25; // кол-во создаваемых объектов данных
-
-const photosData = generatePhotos(PHOTOS_COUNT);
-renderPhotos(photosData);
-makeGalleryInteractive(photosData);
+getDataFromServer(renderPhotos);
 enableValidation();

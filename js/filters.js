@@ -203,6 +203,7 @@ function enableFilters() {
 function disableFilters() {
   document.querySelector('.img-upload__form').removeEventListener('change', onFilterChange);
   imgPreview.className = '';
+  document.querySelector('#effect-none').checked = true;
   slider.noUiSlider.destroy();
 }
 
