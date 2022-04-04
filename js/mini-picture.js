@@ -4,6 +4,7 @@ const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const fragment = document.createDocumentFragment();
 const imgFiltersSection = document.querySelector('.img-filters');
+const imgFilterButtons = document.querySelectorAll('.img-filters__button');
 
 const RANDOM_PHOTOS_COUNT = 10;
 
@@ -88,10 +89,14 @@ function setupGallery() {
 }
 
 const setImgFilterButtonClick = (cb) => {
-  document.querySelectorAll('.img-filters__button')
+  imgFilterButtons
     .forEach((filterButton) => {
       filterButton.addEventListener('click', (evt) => {
         setCurrentFilter(evt.target.id);
+        imgFilterButtons.forEach((button) => {
+          button.classList.remove('img-filters__button--active');
+        });
+        evt.target.classList.add('img-filters__button--active');
         cb();
       });
     }
