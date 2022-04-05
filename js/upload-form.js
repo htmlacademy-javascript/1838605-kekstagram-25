@@ -294,3 +294,5 @@ uploadForm.addEventListener('submit', (evt) => {
     );
   }
 });
+
+export {showErrorForm};

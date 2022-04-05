@@ -2,6 +2,7 @@ import {renderPhotos, showGalleryFilters, setImgFilterButtonClick} from './mini-
 import {enableValidation} from './upload-form.js';
 import {getDataFromServer} from './server-api.js';
 import {debounce} from './util.js';
+import {showErrorForm} from './upload-form.js';
 
 const RERENDER_DELAY = 500;
 
@@ -12,5 +13,8 @@ getDataFromServer((photos) => {
     () => renderPhotos(photos),
     RERENDER_DELAY
   ));
+},
+() => {
+  showErrorForm('Ошибка загрузки данных с сервера');
 });
 enableValidation();

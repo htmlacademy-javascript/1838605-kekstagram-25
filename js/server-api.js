@@ -2,11 +2,19 @@
  * Запрашивает у сервера данные и вызывает onSuccess при их получении
  * @param {function} onSuccess - колбэк
  */
-const getDataFromServer = (onSuccess) => {
+const getDataFromServer = (onSuccess, onFail) => {
   fetch('https://25.javascript.pages.academy/kekstagram/data')
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
     .then((photos) => {
       onSuccess(photos);
+    })
+    .catch((err) => {
+      onFail(err);
     });
 };
 
