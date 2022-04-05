@@ -3,7 +3,7 @@ import {makePreviewScalable, makePreviewUnScalable} from './scale.js';
 import {enableFilters, disableFilters} from './filters.js';
 import {sendDataToServer} from './server-api.js';
 const uploadForm = document.querySelector('.img-upload__form');
-const uploadFIle = uploadForm.querySelector('#upload-file');
+const fileChooser = uploadForm.querySelector('#upload-file');
 const cancelButton = uploadForm.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 const hashtags = uploadForm.querySelector('.text__hashtags');
@@ -11,6 +11,21 @@ const description = uploadForm.querySelector('.text__description');
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
+const imgPreview = document.querySelector('.img-upload__preview img');
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
+const HASHTAG_ERRORS = {
+  noHashtag: 'Хэш-тег должен начинаеться с символа #',
+  onlyHashtag: 'Хеш-тег не может состоять только из одной решётки',
+  symbolError: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
+  tooLongHashtag: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
+  tooManyHashtags: 'Нельзя указать больше пяти хэш-тегов',
+  sameHashtags: 'Один и тот же хэш-тег не может быть использован дважды',
+  noError: 'Нет ошибок'
+};
+const successForm = document.querySelector('#success').content.querySelector('.success');
+const errorForm = document.querySelector('#error').content.querySelector('.error');
+errorForm.querySelector('.error__button').textContent = 'OK';
 
 /**
  * Обработчик нажатия закрытия формы загрузки изображения
@@ -18,7 +33,6 @@ const MAX_HASHTAG_LENGTH = 20;
 function onCancelButtonClick() {
   hideUploadForm();
 }
-
 
 /**
  * Обработчик нажатия кнопки Escape
@@ -53,14 +67,22 @@ function hideUploadForm() {
 
   cancelButton.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onUploadModalEscKeydown);
-  uploadFIle.value ='';
+  fileChooser.value ='';
   hashtags.value = '';
   description.value = '';
   makePreviewUnScalable();
   disableFilters();
 }
 
-uploadFIle.addEventListener('change', () => {
+fileChooser.addEventListener('change', () => {
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    imgPreview.src = URL.createObjectURL(file);
+  }
   showUploadForm();
 });
 
@@ -71,19 +93,8 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error' // Класс для элемента с текстом ошибки
 }, true);
 
-const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
-const HASHTAG_ERRORS = {
-  noHashtag: 'Хэш-тег должен начинаеться с символа #',
-  onlyHashtag: 'Хеш-тег не может состоять только из одной решётки',
-  symbolError: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
-  tooLongHashtag: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
-  tooManyHashtags: 'Нельзя указать больше пяти хэш-тегов',
-  sameHashtags: 'Один и тот же хэш-тег не может быть использован дважды',
-  noError: 'Нет ошибок'
-};
+
 let hashtagErrorCode = HASHTAG_ERRORS.noError;
-
-
 /**
  * Проверяет правильность введенной строки с хэш-тегами
  * @param {string} value - строка с хэш-тегами
@@ -160,11 +171,6 @@ export function enableValidation() {
     'Длина комментария не может составлять больше 140 символов'
   );
 }
-
-const successForm = document.querySelector('#success').content.querySelector('.success');
-const errorForm = document.querySelector('#error').content.querySelector('.error');
-errorForm.querySelector('.error__button').textContent = 'OK';
-
 
 /**
  * Обработчик кнопки на форме успешной отправки фомры
