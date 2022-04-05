@@ -17,6 +17,11 @@ const Filters = {
 let currentFilter = Filters.DEFAULT;
 
 const getCurrentFilter = () => currentFilter;
+
+/**
+ * Устанавливает фильтр по фотографиям на странице
+ * @param {any} id - id фильтра
+ */
 const setCurrentFilter = (id) => {
   switch (id) {
     case Filters.RANDOM:
@@ -51,7 +56,7 @@ function addPhotoToFragment({url, likes, comments, description}) {
   fragment.appendChild(newPicture);
 }
 
-const comparePhotosLikes = (photoA, photoB) => photoB.likes - photoA.likes;
+const comparePhotosCommentsCount = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
 /**
  * Добавляет миниатюры фотографий на страницу
@@ -71,7 +76,7 @@ function renderPhotos(photos) {
       break;
 
     case Filters.DISCUSSED:
-      filteredPhotos = photos.slice().sort(comparePhotosLikes);
+      filteredPhotos = photos.slice().sort(comparePhotosCommentsCount);
       break;
 
     default:
@@ -84,10 +89,17 @@ function renderPhotos(photos) {
   pictureContainer.appendChild(fragment);
 }
 
-function setupGallery() {
+/**
+ * Показывает кнопки с фильтрами на странице галереи
+ */
+function showGalleryFilters() {
   imgFiltersSection.classList.remove('img-filters--inactive');
 }
 
+/**
+ * Функция для назначения обработчика по нажатию на кнопки смены фильтров гелереи
+ * @param {function} cb - обработчик кнопок с классом .img-filters__button
+ */
 const setImgFilterButtonClick = (cb) => {
   imgFilterButtons
     .forEach((filterButton) => {
@@ -103,4 +115,4 @@ const setImgFilterButtonClick = (cb) => {
     );
 };
 
-export {renderPhotos, setupGallery, setImgFilterButtonClick};
+export {renderPhotos, showGalleryFilters, setImgFilterButtonClick};
