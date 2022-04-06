@@ -55,7 +55,13 @@ function isExistSameElement(array) {
   return false;
 }
 
-function debounce (callback, timeoutDelay = 500) {
+/**
+ * Для устранения дребезга
+ * @param {function} callback - функция, дребезг которой надо устранить
+ * @param {number} timeoutDelay=500 - время через которое будет вызываться callback
+ * @returns {function} кол-бэк с защитой от дребезга
+ */
+function debounce(callback, timeoutDelay = 500) {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
