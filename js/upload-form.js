@@ -14,14 +14,14 @@ const MAX_HASHTAG_LENGTH = 20;
 const imgPreview = document.querySelector('.img-upload__preview img');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
-const HASHTAG_ERRORS = {
-  noHashtag: 'Хэш-тег должен начинаеться с символа #',
-  onlyHashtag: 'Хеш-тег не может состоять только из одной решётки',
-  symbolError: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
-  tooLongHashtag: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
-  tooManyHashtags: 'Нельзя указать больше пяти хэш-тегов',
-  sameHashtags: 'Один и тот же хэш-тег не может быть использован дважды',
-  noError: 'Нет ошибок'
+const HashtagErrors = {
+  NO_HASHTAG: 'Хэш-тег должен начинаеться с символа #',
+  ONLY_HASHTAG: 'Хеш-тег не может состоять только из одной решётки',
+  SYMBOL_ERROR: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
+  TOO_LONG_HASHTAG: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
+  TOO_MANY_HASHTAGS: 'Нельзя указать больше пяти хэш-тегов',
+  SAME_HASHTAGS: 'Один и тот же хэш-тег не может быть использован дважды',
+  NO_ERROR: 'Нет ошибок'
 };
 const successForm = document.querySelector('#success').content.querySelector('.success');
 const errorForm = document.querySelector('#error').content.querySelector('.error');
@@ -94,14 +94,14 @@ const pristine = new Pristine(uploadForm, {
 }, true);
 
 
-let hashtagErrorCode = HASHTAG_ERRORS.noError;
+let hashtagErrorCode = HashtagErrors.NO_ERROR;
 /**
  * Проверяет правильность введенной строки с хэш-тегами
  * @param {string} value - строка с хэш-тегами
  * @returns {boolean}
  */
 function validateHashtags(value) {
-  hashtagErrorCode = HASHTAG_ERRORS.noError;
+  hashtagErrorCode = HashtagErrors.NO_ERROR;
   value = value.trim(); // убираем пробелы в конце
   value = value.toLowerCase(); // переводим в нижний регистр
   // hashtags.value = value;
@@ -110,29 +110,29 @@ function validateHashtags(value) {
     for (let i = 0; i < hashtagsArray.length; i++) {
       if (!re.test(hashtagsArray[i])) {
         if (hashtagsArray[i][0] !== '#') {
-          hashtagErrorCode = HASHTAG_ERRORS.noHashtag;
+          hashtagErrorCode = HashtagErrors.NO_HASHTAG;
           return false;
         }
         if (hashtagsArray[i][0] === '#' && hashtagsArray[i].length === 1) {
-          hashtagErrorCode = HASHTAG_ERRORS.onlyHashtag;
+          hashtagErrorCode = HashtagErrors.ONLY_HASHTAG;
           return false;
         }
         if (hashtagsArray[i].length > MAX_HASHTAG_LENGTH) {
-          hashtagErrorCode = HASHTAG_ERRORS.tooLongHashtag;
+          hashtagErrorCode = HashtagErrors.TOO_LONG_HASHTAG;
           return false;
         }
-        hashtagErrorCode = HASHTAG_ERRORS.symbolError;
+        hashtagErrorCode = HashtagErrors.SYMBOL_ERROR;
         return false;
       }
     }
 
     if (hashtagsArray.length > MAX_HASHTAGS_COUNT) {
-      hashtagErrorCode = HASHTAG_ERRORS.tooManyHashtags;
+      hashtagErrorCode = HashtagErrors.TOO_MANY_HASHTAGS;
       return false;
     }
 
     if (isExistSameElement(hashtagsArray)) {
-      hashtagErrorCode = HASHTAG_ERRORS.sameHashtags;
+      hashtagErrorCode = HashtagErrors.SAME_HASHTAGS;
       return false;
     }
   }

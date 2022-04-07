@@ -3,19 +3,19 @@ const effectLevelElement = document.querySelector('.effect-level__value');
 const imgPreview = document.querySelector('.img-upload__preview img');
 
 // Слова для применения style.filter
-const FILTERS = {
-  none: '',
-  chrome: 'grayscale',
-  sepia: 'sepia',
-  marvin: 'invert',
-  phobos: 'blur',
-  heat: 'brightness'
+const Filters = {
+  NONE: '',
+  CHROME: 'grayscale',
+  SEPIA: 'sepia',
+  MARVIN: 'invert',
+  PHOBOS: 'blur',
+  HEAT: 'brightness'
 };
 
-let filterType = FILTERS.none;
+let filterType = Filters.NONE;
 
 // Настройки слайдера для различных фильтров
-const SLIDER_OPTIONS = {
+const SliderOptions = {
   DEFAULT: {
     range: {
       min: 0,
@@ -125,39 +125,39 @@ function changeFilter(filterId) {
   switch (filterId) {
     case 'effect-none':
       filter = 'effects__preview--none';
-      filterType = FILTERS.none;
+      filterType = Filters.NONE;
       slider.setAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.DEFAULT;
+      sliderOptions = SliderOptions.DEFAULT;
       break;
     case 'effect-chrome':
       filter = 'effects__preview--chrome';
-      filterType = FILTERS.chrome;
+      filterType = Filters.CHROME;
       slider.removeAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.CHROME;
+      sliderOptions = SliderOptions.CHROME;
       break;
     case 'effect-sepia':
       filter = 'effects__preview--sepia';
-      filterType = FILTERS.sepia;
+      filterType = Filters.SEPIA;
       slider.removeAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.SEPIA;
+      sliderOptions = SliderOptions.SEPIA;
       break;
     case 'effect-marvin':
       filter = 'effects__preview--marvin';
-      filterType = FILTERS.marvin;
+      filterType = Filters.MARVIN;
       slider.removeAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.MARVIN;
+      sliderOptions = SliderOptions.MARVIN;
       break;
     case 'effect-phobos':
       filter = 'effects__preview--phobos';
-      filterType = FILTERS.phobos;
+      filterType = Filters.PHOBOS;
       slider.removeAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.PHOBOS;
+      sliderOptions = SliderOptions.PHOBOS;
       break;
     case 'effect-heat':
       filter = 'effects__preview--heat';
-      filterType = FILTERS.heat;
+      filterType = Filters.HEAT;
       slider.removeAttribute('hidden', true);
-      sliderOptions = SLIDER_OPTIONS.HEAT;
+      sliderOptions = SliderOptions.HEAT;
       break;
   }
   imgPreview.className = '';
@@ -180,16 +180,16 @@ function onFilterChange(evt) {
  */
 function enableFilters() {
   effectLevelElement.value = 1;
-  filterType = FILTERS.none;
+  filterType = Filters.NONE;
 
-  noUiSlider.create(slider, SLIDER_OPTIONS.DEFAULT);
+  noUiSlider.create(slider, SliderOptions.DEFAULT);
   slider.setAttribute('hidden', true);
   document.querySelector('.img-upload__form').addEventListener('change', onFilterChange);
 
   slider.noUiSlider.on('update', () => {
     effectLevelElement.value = parseFloat(slider.noUiSlider.get());
     // Можно как-то сделать по другому???
-    if (filterType !== FILTERS.none) {
+    if (filterType !== Filters.NONE) {
       imgPreview.style.filter = `${filterType}(${slider.noUiSlider.get()})`;
     } else {
       imgPreview.style.filter = '';

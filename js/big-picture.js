@@ -1,3 +1,5 @@
+const COMMENTS_LOAD_STEP = 5;
+
 import {isEscapeKey} from './util.js';
 const bigPicture = document.querySelector('.big-picture');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
@@ -5,7 +7,6 @@ const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const loadMoreButton = bigPicture.querySelector('.social__comments-loader');
 const loadedComments = bigPicture.querySelector('.social__comment-count');
-const COMMENTS_LOAD_STEP = 5;
 let commentsRef;
 let commentsPos = 0;
 

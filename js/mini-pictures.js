@@ -1,3 +1,10 @@
+const RANDOM_PHOTOS_COUNT = 10;
+const Filters = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed'
+};
+
 import {showBigPicture} from './big-picture.js';
 import {getRandomInt} from './util.js';
 const pictureContainer = document.querySelector('.pictures');
@@ -5,14 +12,6 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const fragment = document.createDocumentFragment();
 const imgFiltersSection = document.querySelector('.img-filters');
 const imgFilterButtons = document.querySelectorAll('.img-filters__button');
-
-const RANDOM_PHOTOS_COUNT = 10;
-
-const Filters = {
-  DEFAULT: 'filter-default',
-  RANDOM: 'filter-random',
-  DISCUSSED: 'filter-discussed'
-};
 
 let currentFilter = Filters.DEFAULT;
 
