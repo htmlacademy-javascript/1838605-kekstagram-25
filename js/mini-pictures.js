@@ -1,10 +1,5 @@
 const RANDOM_PHOTOS_COUNT = 10;
-const Filters = {
-  DEFAULT: 'filter-default',
-  RANDOM: 'filter-random',
-  DISCUSSED: 'filter-discussed'
-};
-let currentFilter = Filters.DEFAULT;
+let currentFilter = 'filter-default';
 
 import {showBigPicture} from './big-picture.js';
 import {getRandomInt} from './util.js';
@@ -13,28 +8,6 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const fragment = document.createDocumentFragment();
 const imgFiltersSection = document.querySelector('.img-filters');
 const imgFilterButtons = document.querySelectorAll('.img-filters__button');
-
-function getCurrentFilter() {
-  return currentFilter;
-}
-
-/**
- * Устанавливает фильтр по фотографиям на странице
- * @param {any} id - id фильтра
- */
-function setCurrentFilter(id) {
-  switch (id) {
-    case Filters.RANDOM:
-      currentFilter = Filters.RANDOM;
-      break;
-    case Filters.DISCUSSED:
-      currentFilter = Filters.DISCUSSED;
-      break;
-    default:
-      currentFilter = Filters.DEFAULT;
-      break;
-  }
-}
 
 /**
  * Добавляет миниатюру фотографии с информацией о кол-ве комментариев и лайков в DocumentFragment
@@ -61,14 +34,15 @@ function comparePhotosCommentsCount(photoA, photoB) {
 }
 
 /**
- * Добавляет миниатюры фотографий на страницу
- * @param {object[]} photos - массив фотографий
+ * Фильтрует массив фотографий по текущему фильтру currentFilter
+ * @param {any} photos - массив фотографий
+ * @returns {any} отфильтрованный массив
  */
-function renderPhotos(photos) {
+function filterPhotos(photos) {
   let filteredPhotos = [];
   let temp = [];
-  switch (getCurrentFilter()) {
-    case Filters.RANDOM:
+  switch (currentFilter) {
+    case 'filter-random':
       temp = photos.slice();
       for (let i = 0; i < RANDOM_PHOTOS_COUNT && temp.length > 0; i++) {
         const randomPhotoIndex = getRandomInt(0, temp.length - 1);
@@ -77,7 +51,7 @@ function renderPhotos(photos) {
       }
       break;
 
-    case Filters.DISCUSSED:
+    case 'filter-discussed':
       filteredPhotos = photos.slice().sort(comparePhotosCommentsCount);
       break;
 
@@ -85,6 +59,15 @@ function renderPhotos(photos) {
       filteredPhotos = photos;
       break;
   }
+  return filteredPhotos;
+}
+
+/**
+ * Добавляет миниатюры фотографий на страницу
+ * @param {object[]} photos - массив фотографий
+ */
+function renderPhotos(photos) {
+  const filteredPhotos = filterPhotos(photos);
   filteredPhotos.forEach(addPhotoToFragment);
   document.querySelectorAll('.picture')
     .forEach((photo) => photo.remove());
@@ -106,7 +89,7 @@ function setImgFilterButtonClick(cb) {
   imgFilterButtons
     .forEach((filterButton) => {
       filterButton.addEventListener('click', (evt) => {
-        setCurrentFilter(evt.target.id);
+        currentFilter = evt.target.id;
         imgFilterButtons.forEach((button) => {
           button.classList.remove('img-filters__button--active');
         });
