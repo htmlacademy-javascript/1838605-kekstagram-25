@@ -14,13 +14,15 @@ const fragment = document.createDocumentFragment();
 const imgFiltersSection = document.querySelector('.img-filters');
 const imgFilterButtons = document.querySelectorAll('.img-filters__button');
 
-const getCurrentFilter = () => currentFilter;
+function getCurrentFilter() {
+  return currentFilter;
+}
 
 /**
  * Устанавливает фильтр по фотографиям на странице
  * @param {any} id - id фильтра
  */
-const setCurrentFilter = (id) => {
+function setCurrentFilter(id) {
   switch (id) {
     case Filters.RANDOM:
       currentFilter = Filters.RANDOM;
@@ -32,7 +34,7 @@ const setCurrentFilter = (id) => {
       currentFilter = Filters.DEFAULT;
       break;
   }
-};
+}
 
 /**
  * Добавляет миниатюру фотографии с информацией о кол-ве комментариев и лайков в DocumentFragment
@@ -54,7 +56,9 @@ function addPhotoToFragment({url, likes, comments, description}) {
   fragment.appendChild(newPicture);
 }
 
-const comparePhotosCommentsCount = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
+function comparePhotosCommentsCount(photoA, photoB) {
+  return photoB.comments.length - photoA.comments.length;
+}
 
 /**
  * Добавляет миниатюры фотографий на страницу
@@ -98,7 +102,7 @@ function showGalleryFilters() {
  * Функция для назначения обработчика по нажатию на кнопки смены фильтров гелереи
  * @param {function} cb - обработчик кнопок с классом .img-filters__button
  */
-const setImgFilterButtonClick = (cb) => {
+function setImgFilterButtonClick(cb) {
   imgFilterButtons
     .forEach((filterButton) => {
       filterButton.addEventListener('click', (evt) => {
@@ -111,6 +115,6 @@ const setImgFilterButtonClick = (cb) => {
       });
     }
     );
-};
+}
 
 export {renderPhotos, showGalleryFilters, setImgFilterButtonClick};

@@ -159,7 +159,7 @@ function validateDescription(value) {
   return value.length <= MAX_DESCRIPTION_LENGTH;
 }
 
-export function enableValidation() {
+function enableValidation() {
   pristine.addValidator(
     hashtags,
     validateHashtags,
@@ -263,18 +263,18 @@ function hideErrorForm() {
 /**
  * Блокирует кнопку отправки формы
  */
-const blockSubmitButton = () => {
+function blockSubmitButton() {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикую...';
-};
+}
 
 /**
  * Разблокирует кнопку отправки формы
  */
-const unblockSubmitButton = () => {
+function unblockSubmitButton() {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-};
+}
 
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -296,4 +296,4 @@ uploadForm.addEventListener('submit', (evt) => {
   }
 });
 
-export {showErrorForm};
+export {showErrorForm, enableValidation};
