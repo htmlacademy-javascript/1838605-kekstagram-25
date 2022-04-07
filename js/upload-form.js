@@ -1,3 +1,18 @@
+const MAX_DESCRIPTION_LENGTH = 140;
+const MAX_HASHTAGS_COUNT = 5;
+const MAX_HASHTAG_LENGTH = 20;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const HashtagErrors = {
+  NO_HASHTAG: 'Хэш-тег должен начинаеться с символа #',
+  ONLY_HASHTAG: 'Хеш-тег не может состоять только из одной решётки',
+  SYMBOL_ERROR: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
+  TOO_LONG_HASHTAG: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
+  TOO_MANY_HASHTAGS: 'Нельзя указать больше пяти хэш-тегов',
+  SAME_HASHTAGS: 'Один и тот же хэш-тег не может быть использован дважды',
+  NO_ERROR: 'Нет ошибок'
+};
+let hashtagErrorCode = HashtagErrors.NO_ERROR;
+
 import {isEscapeKey, isExistSameElement} from './util.js';
 import {makePreviewScalable, makePreviewUnScalable} from './scale.js';
 import {enableFilters, disableFilters} from './filters.js';
@@ -8,24 +23,12 @@ const cancelButton = uploadForm.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 const hashtags = uploadForm.querySelector('.text__hashtags');
 const description = uploadForm.querySelector('.text__description');
-const MAX_DESCRIPTION_LENGTH = 140;
-const MAX_HASHTAGS_COUNT = 5;
-const MAX_HASHTAG_LENGTH = 20;
 const imgPreview = document.querySelector('.img-upload__preview img');
-const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
-const HashtagErrors = {
-  NO_HASHTAG: 'Хэш-тег должен начинаеться с символа #',
-  ONLY_HASHTAG: 'Хеш-тег не может состоять только из одной решётки',
-  SYMBOL_ERROR: 'Хэш-тег должен состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.',
-  TOO_LONG_HASHTAG: 'Максимальная длина одного хэш-тега не может быть более 20 символов, включая решётку',
-  TOO_MANY_HASHTAGS: 'Нельзя указать больше пяти хэш-тегов',
-  SAME_HASHTAGS: 'Один и тот же хэш-тег не может быть использован дважды',
-  NO_ERROR: 'Нет ошибок'
-};
 const successForm = document.querySelector('#success').content.querySelector('.success');
 const errorForm = document.querySelector('#error').content.querySelector('.error');
 errorForm.querySelector('.error__button').textContent = 'OK';
+
+const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 
 /**
  * Обработчик нажатия закрытия формы загрузки изображения
@@ -93,8 +96,6 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error' // Класс для элемента с текстом ошибки
 }, true);
 
-
-let hashtagErrorCode = HashtagErrors.NO_ERROR;
 /**
  * Проверяет правильность введенной строки с хэш-тегами
  * @param {string} value - строка с хэш-тегами

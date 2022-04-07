@@ -4,6 +4,7 @@ const Filters = {
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed'
 };
+let currentFilter = Filters.DEFAULT;
 
 import {showBigPicture} from './big-picture.js';
 import {getRandomInt} from './util.js';
@@ -12,8 +13,6 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const fragment = document.createDocumentFragment();
 const imgFiltersSection = document.querySelector('.img-filters');
 const imgFilterButtons = document.querySelectorAll('.img-filters__button');
-
-let currentFilter = Filters.DEFAULT;
 
 const getCurrentFilter = () => currentFilter;
 

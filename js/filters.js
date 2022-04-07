@@ -1,7 +1,3 @@
-const slider = document.querySelector('.effect-level__slider');
-const effectLevelElement = document.querySelector('.effect-level__value');
-const imgPreview = document.querySelector('.img-upload__preview img');
-
 // Слова для применения style.filter
 const Filters = {
   NONE: '',
@@ -11,8 +7,11 @@ const Filters = {
   PHOBOS: 'blur',
   HEAT: 'brightness'
 };
-
 let filterType = Filters.NONE;
+
+const slider = document.querySelector('.effect-level__slider');
+const effectLevelElement = document.querySelector('.effect-level__value');
+const imgPreview = document.querySelector('.img-upload__preview img');
 
 // Настройки слайдера для различных фильтров
 const SliderOptions = {
