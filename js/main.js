@@ -1,10 +1,10 @@
+const RERENDER_DELAY = 500;
+
 import {renderPhotos, showGalleryFilters, setImgFilterButtonClick} from './mini-pictures.js';
 import {enableValidation} from './upload-form.js';
 import {getDataFromServer} from './server-api.js';
 import {debounce} from './util.js';
 import {showErrorForm} from './upload-form.js';
-
-const RERENDER_DELAY = 500;
 
 getDataFromServer((photos) => {
   renderPhotos(photos);
