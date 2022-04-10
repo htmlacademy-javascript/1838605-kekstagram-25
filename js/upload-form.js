@@ -33,20 +33,20 @@ const re = /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 /**
  * Обработчик нажатия закрытия формы загрузки изображения
  */
-function onCancelButtonClick() {
+const onCancelButtonClick = () => {
   hideUploadForm();
-}
+};
 
 /**
  * Обработчик нажатия кнопки Escape
  * @param {any} evt
  */
-function onUploadModalEscKeydown(evt) {
+const onUploadModalEscKeydown = (evt) => {
   if (isEscapeKey(evt) && (evt.target !== hashtags && evt.target !== description)) {
     evt.preventDefault();
     hideUploadForm();
   }
-}
+};
 
 /**
  * Показывает форму редактирования изображения
@@ -101,7 +101,7 @@ const pristine = new Pristine(uploadForm, {
  * @param {string} value - строка с хэш-тегами
  * @returns {boolean}
  */
-function validateHashtags(value) {
+const validateHashtags = (value) => {
   hashtagErrorCode = HashtagErrors.NO_ERROR;
   value = value.trim(); // убираем пробелы в конце
   value = value.toLowerCase(); // переводим в нижний регистр
@@ -139,27 +139,23 @@ function validateHashtags(value) {
   }
 
   return true;
-}
+};
 
 
 /**
  * Возвращает строку с ошибкой хэш-тега
  * @returns {string}
  */
-function getHashTagErrorMessage() {
-  return hashtagErrorCode;
-}
+const getHashTagErrorMessage = () => hashtagErrorCode;
 
 /**
  * Проверяет правильность описания
  * @param {string} value - строка с описанием
  * @returns {boolean}
  */
-function validateDescription(value) {
-  return value.length <= MAX_DESCRIPTION_LENGTH;
-}
+const validateDescription = (value) => value.length <= MAX_DESCRIPTION_LENGTH;
 
-function enableValidation() {
+const enableValidation = () => {
   pristine.addValidator(
     hashtags,
     validateHashtags,
@@ -171,53 +167,53 @@ function enableValidation() {
     validateDescription,
     'Длина комментария не может составлять больше 140 символов'
   );
-}
+};
 
 /**
  * Обработчик кнопки на форме успешной отправки фомры
  */
-function onSuccessButtonClick() {
+const onSuccessButtonClick = () => {
   hideSuccessForm();
-}
+};
 
 /**
  * Обработчик кнопки на форме неудачной отправки фомры
  */
-function onErrorButtonClick() {
+const onErrorButtonClick = () => {
   hideErrorForm();
-}
+};
 
 /**
  * Обработчик клика вне сообщения общ успешной/неудачной отправки формы
  */
-function onOutOfFormClick(evt) {
+const onOutOfFormClick = (evt) => {
   if (evt.target === successForm && evt.target !== successForm.querySelector('.success__inner')) {
     hideSuccessForm();
   }
   if (evt.target === errorForm && evt.target !== errorForm.querySelector('.error__inner')) {
     hideErrorForm();
   }
-}
+};
 
 /**
  * Обработчик клавиши Escape при открытом окне успешной отправки формы
  */
-function onSuccessFormEscKeydown(evt) {
+const onSuccessFormEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideSuccessForm();
   }
-}
+};
 
 /**
  * Обработчик клавиши Escape при открытом окне неудачной отправки формы
  */
-function onErrorFormEscKeydown(evt) {
+const onErrorFormEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideErrorForm();
   }
-}
+};
 
 /**
  * Показывает сообщение об успешной отправке формы
@@ -263,18 +259,18 @@ function hideErrorForm() {
 /**
  * Блокирует кнопку отправки формы
  */
-function blockSubmitButton() {
+const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикую...';
-}
+};
 
 /**
  * Разблокирует кнопку отправки формы
  */
-function unblockSubmitButton() {
+const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 uploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();

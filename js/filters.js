@@ -118,7 +118,7 @@ const SliderOptions = {
  * Применяет фильтр к изображению
  * @param {string} filterId - id фильтра из html
  */
-function changeFilter(filterId) {
+const changeFilter = (filterId) => {
   let filter;
   let sliderOptions;
   switch (filterId) {
@@ -162,22 +162,22 @@ function changeFilter(filterId) {
   imgPreview.className = '';
   imgPreview.classList.add(filter);
   slider.noUiSlider.updateOptions(sliderOptions);
-}
+};
 
 /**
  * Обработчик при изменении фильтра
  * @param {any} evt
  */
-function onFilterChange(evt) {
+const onFilterChange = (evt) => {
   if (evt.target.closest('.effects__item')) {
     changeFilter(evt.target.id);
   }
-}
+};
 
 /**
  * Подключает настройку фильтров у изображения
  */
-function enableFilters() {
+const enableFilters = () => {
   effectLevelElement.value = 1;
   filterType = Filters.NONE;
 
@@ -194,16 +194,16 @@ function enableFilters() {
       imgPreview.style.filter = '';
     }
   });
-}
+};
 
 /**
  * Отключает настройку фильтров у изображения
  */
-function disableFilters() {
+const disableFilters = () => {
   document.querySelector('.img-upload__form').removeEventListener('change', onFilterChange);
   imgPreview.className = '';
   document.querySelector('#effect-none').checked = true;
   slider.noUiSlider.destroy();
-}
+};
 
 export {enableFilters, disableFilters};
