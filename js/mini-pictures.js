@@ -18,7 +18,7 @@ const imgFilterButtons = document.querySelectorAll('.img-filters__button');
  * likes - кол-во лайков;
  * comments - массив из комменатриев к фотографии
  */
-function addPhotoToFragment({url, likes, comments, description}) {
+const addPhotoToFragment = ({url, likes, comments, description}) => {
   const newPicture = pictureTemplate.cloneNode(true);
   newPicture.querySelector('.picture__img').src = url;
   newPicture.querySelector('.picture__likes').textContent = likes;
@@ -27,27 +27,25 @@ function addPhotoToFragment({url, likes, comments, description}) {
     showBigPicture({url, likes, comments, description});
   });
   fragment.appendChild(newPicture);
-}
+};
 
-function comparePhotosCommentsCount(photoA, photoB) {
-  return photoB.comments.length - photoA.comments.length;
-}
+const comparePhotosCommentsCount = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
 /**
  * Фильтрует массив фотографий по текущему фильтру currentFilter
  * @param {any} photos - массив фотографий
  * @returns {any} отфильтрованный массив
  */
-function filterPhotos(photos) {
+const filterPhotos = (photos) => {
   let filteredPhotos = [];
-  let temp = [];
+  let tempPhotos = [];
   switch (currentFilter) {
     case 'filter-random':
-      temp = photos.slice();
-      for (let i = 0; i < RANDOM_PHOTOS_COUNT && temp.length > 0; i++) {
-        const randomPhotoIndex = getRandomInt(0, temp.length - 1);
-        filteredPhotos.push(temp[randomPhotoIndex]);
-        temp.splice(randomPhotoIndex, 1);
+      tempPhotos = photos.slice();
+      for (let i = 0; i < RANDOM_PHOTOS_COUNT && tempPhotos.length > 0; i++) {
+        const randomPhotoIndex = getRandomInt(0, tempPhotos.length - 1);
+        filteredPhotos.push(tempPhotos[randomPhotoIndex]);
+        tempPhotos.splice(randomPhotoIndex, 1);
       }
       break;
 
@@ -60,32 +58,32 @@ function filterPhotos(photos) {
       break;
   }
   return filteredPhotos;
-}
+};
 
 /**
  * Добавляет миниатюры фотографий на страницу
  * @param {object[]} photos - массив фотографий
  */
-function renderPhotos(photos) {
+const renderPhotos = (photos) => {
   const filteredPhotos = filterPhotos(photos);
   filteredPhotos.forEach(addPhotoToFragment);
   document.querySelectorAll('.picture')
     .forEach((photo) => photo.remove());
   pictureContainer.appendChild(fragment);
-}
+};
 
 /**
  * Показывает кнопки с фильтрами на странице галереи
  */
-function showGalleryFilters() {
+const showGalleryFilters = () => {
   imgFiltersSection.classList.remove('img-filters--inactive');
-}
+};
 
 /**
  * Функция для назначения обработчика по нажатию на кнопки смены фильтров гелереи
  * @param {function} cb - обработчик кнопок с классом .img-filters__button
  */
-function setImgFilterButtonClick(cb) {
+const setImgFilterButtonClick = (cb) => {
   imgFilterButtons
     .forEach((filterButton) => {
       filterButton.addEventListener('click', (evt) => {
@@ -98,6 +96,6 @@ function setImgFilterButtonClick(cb) {
       });
     }
     );
-}
+};
 
 export {renderPhotos, showGalleryFilters, setImgFilterButtonClick};

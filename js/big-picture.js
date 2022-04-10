@@ -10,16 +10,16 @@ const loadedComments = bigPicture.querySelector('.social__comment-count');
 let commentsRef;
 let commentsPos = 0;
 
-function onBigPictureEscKeydown(evt) {
+const onBigPictureEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideBigPicture();
   }
-}
+};
 
-function onBigPictureCancelClick() {
+const onBigPictureCancelClick = () => {
   hideBigPicture();
-}
+};
 
 /**
  * Создает копию шаблона комментария и заполняет ее
@@ -28,39 +28,39 @@ function onBigPictureCancelClick() {
  * @param {string} message}
  * @returns {object} заполненная форма комментария
  */
-function fillComment({name, avatar, message}) {
+const fillComment = ({name, avatar, message}) => {
   const newComment = commentTemplate.cloneNode(true);
   newComment.querySelector('.social__picture').src = avatar;
   newComment.querySelector('.social__picture').alt = name;
   newComment.querySelector('.social__text').textContent = message;
   return newComment;
-}
+};
 
 /**
  * Отрисовывает комментарии
  * @param {object[]} comments - массив комментариев
  */
-function renderComments(comments) {
+const renderComments = (comments) => {
   const fragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     fragment.appendChild(fillComment(comment));
   });
   bigPicture.querySelector('.social__comments').appendChild(fragment);
-}
+};
 
 /**
  * Обновляет число загруженных комментариев
  * @param {number} newValue - число загруженных комментариев
  */
-function updateLoadedCommentsCount(newValue) {
+const updateLoadedCommentsCount = (newValue) => {
   loadedComments.firstChild.textContent = `${newValue} из `;
-}
+};
 
 /**
  * Обработчик нажатия кнопки "Загрузить еще".
  * Подгружает еще комментариев, если они есть
  */
-function onLoadMoreButtonClick() {
+const onLoadMoreButtonClick = () => {
   let increment = COMMENTS_LOAD_STEP;
   if (commentsRef.length > commentsPos) {
     if ((commentsRef.length - commentsPos) <= COMMENTS_LOAD_STEP) {
@@ -71,7 +71,7 @@ function onLoadMoreButtonClick() {
     commentsPos += increment;
     updateLoadedCommentsCount(commentsPos);
   }
-}
+};
 
 /**
  * Показывает окно с большой фотографией
@@ -80,7 +80,7 @@ function onLoadMoreButtonClick() {
  * @param {number} likes
  * @param {object[]} comments}
  */
-function showBigPicture({url, description, likes, comments}) {
+const showBigPicture = ({url, description, likes, comments}) => {
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = url;
   bigPicture.querySelector('.likes-count').textContent = likes;
   bigPicture.querySelector('.social__caption').textContent = description;
@@ -98,7 +98,7 @@ function showBigPicture({url, description, likes, comments}) {
   bigPictureCancel.addEventListener('click', onBigPictureCancelClick);
   document.addEventListener('keydown', onBigPictureEscKeydown);
   loadMoreButton.addEventListener('click', onLoadMoreButtonClick);
-}
+};
 
 /**
  * Скрывает окно с большой фотографией

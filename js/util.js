@@ -4,27 +4,25 @@
  * @param {number} b - правая(левая) граница диапазона
  * @returns {number} случайное целое число из диапазона
  */
-function getRandomInt(a, b) {
+const getRandomInt = (a, b) => {
   const left = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const right = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
   return Math.floor(Math.random() * (right - left + 1)) + left;
-}
+};
 
 /**
  * Проверяет, что нажатая клавиша соответствует клавише Escape
  * @param {object} evt
  * @returns {boolean} true, если Escape
  */
-function isEscapeKey(evt) {
-  return evt.key === 'Escape';
-}
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 /**
  * Проверяет наличие одинаковых элементов в массиве
  * @param {any} array
  * @returns {boolean}
  */
-function isExistSameElement(array) {
+const isExistSameElement = (array) => {
   const tempArray = {};
   for (let i = 0; i < array.length; i++) {
     if (tempArray[array[i]]) {
@@ -33,7 +31,7 @@ function isExistSameElement(array) {
     tempArray[array[i]] = 1;
   }
   return false;
-}
+};
 
 /**
  * Для устранения дребезга
@@ -41,7 +39,7 @@ function isExistSameElement(array) {
  * @param {number} timeoutDelay=500 - время через которое будет вызываться callback
  * @returns {function} кол-бэк с защитой от дребезга
  */
-function debounce(callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -57,6 +55,6 @@ function debounce(callback, timeoutDelay = 500) {
     // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
-}
+};
 
 export {getRandomInt, isEscapeKey, isExistSameElement, debounce};

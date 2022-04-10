@@ -2,7 +2,7 @@
  * Запрашивает у сервера данные и вызывает onSuccess при их получении
  * @param {function} onSuccess - колбэк
  */
-function getDataFromServer(onSuccess, onFail) {
+const getDataFromServer = (onSuccess, onFail) => {
   fetch('https://25.javascript.pages.academy/kekstagram/data')
     .then((response) => {
       if (response.ok) {
@@ -16,9 +16,9 @@ function getDataFromServer(onSuccess, onFail) {
     .catch((err) => {
       onFail(err);
     });
-}
+};
 
-function sendDataToServer(onSuccess, onFail, body) {
+const sendDataToServer = (onSuccess, onFail, body) => {
   fetch(
     'https://25.javascript.pages.academy/kekstagram',
     {
@@ -36,6 +36,6 @@ function sendDataToServer(onSuccess, onFail, body) {
     .catch(() => {
       onFail('Не удалось отправить форму');
     });
-}
+};
 
 export {getDataFromServer, sendDataToServer};
