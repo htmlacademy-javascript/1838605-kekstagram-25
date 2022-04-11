@@ -19,16 +19,16 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 /**
  * Проверяет наличие одинаковых элементов в массиве
- * @param {any} array
+ * @param {any} elements
  * @returns {boolean}
  */
-const isExistSameElement = (array) => {
-  const tempArray = {};
-  for (let i = 0; i < array.length; i++) {
-    if (tempArray[array[i]]) {
+const isExistSameElement = (elements) => {
+  const tempElements = {};
+  for (let i = 0; i < elements.length; i++) {
+    if (tempElements[elements[i]]) {
       return true;
     }
-    tempArray[array[i]] = 1;
+    tempElements[elements[i]] = 1;
   }
   return false;
 };
